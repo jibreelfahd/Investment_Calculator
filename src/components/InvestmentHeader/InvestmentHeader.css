@@ -1,0 +1,15 @@
+.investment__head {
+  text-align: center;
+  margin: 2rem auto;
+}
+
+.investment__head img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: contain;
+  background: transparent;
+}
+
+.investment__head h1 {
+  font-size: 1.5rem;
+}
