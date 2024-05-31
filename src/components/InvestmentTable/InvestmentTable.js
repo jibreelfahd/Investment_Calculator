@@ -1,10 +1,15 @@
 import React from "react";
 
-import "./InvestmentTable.css";
+import styles from "./InvestmentTable.module.css";
 
-const InvestmentTable = () => {
+const InvestmentTable = ({
+  year,
+  yearlyInterest,
+  savingsEndOfYear,
+  yearlyContribution,
+}) => {
   return (
-    <table className="investment__result">
+    <table className={styles.investment__result}>
       <thead>
         <tr>
           <th>Year</th>
@@ -16,11 +21,11 @@ const InvestmentTable = () => {
       </thead>
       <tbody>
         <tr>
-          <td>Year</td>
-          <td>TOTAL SAVINGS END OF YEAR</td>
-          <td>INTEREST GAINED IN YEAR</td>
-          <td>TOTAL INTEREST GAINED</td>
-          <td>TOTAL INVESTED CAPITAL</td>
+          <td>{year}</td>
+          <td>{savingsEndOfYear}</td>
+          <td>{yearlyInterest}</td>
+          <td>{year}</td>
+          <td>{yearlyContribution}</td>
         </tr>
       </tbody>
     </table>
