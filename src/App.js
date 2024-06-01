@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 
 import InvestmentHeader from "./components/InvestmentHeader/InvestmentHeader";
 import InvestmentForm from "./components/InvestmentForm/InvestmentForm";
 import InvestmentTable from "./components/InvestmentTable/InvestmentTable";
 
 const App = () => {
-  const yearlyData = []; // per-year results
+  const [userInput, setUserInput] = useState(null);
 
   const calculateHandler = (userInput) => {
-    // Should be triggered when form is submitted
-    // You might not directly want to bind it to the submit event on the form though...
+    setUserInput(userInput);
+  };
 
-    let currentSavings = userInput.currentSavings;
-    const yearlyContribution = userInput.yearlyContribution;
-    const expectedReturn = userInput.expectedReturn / 100;
-    const duration = userInput.duration;
+  const yearlyData = [];
 
-    // The below code calculates yearly results (total savings, interest etc)
+  if (userInput) {
+    let currentSavings = userInput["currentSavings"];
+    const yearlyContribution = userInput["yearlyContributions"];
+    const expectedReturn = userInput["expectedReturn"] / 100;
+    const duration = userInput["duration"];
+
     for (let i = 0; i < duration; i++) {
       const yearlyInterest = currentSavings * expectedReturn;
       currentSavings += yearlyInterest + yearlyContribution;
@@ -27,26 +29,23 @@ const App = () => {
         yearlyContribution: yearlyContribution,
       });
     }
-
-    return yearlyData;
-  };
-  console.log(yearlyData)
-
-  let content = (
-    <p style={{ textAlign: "center", fontWeight: "bold" }}>
-      No investment to be calculated
-    </p>
-  );
-
-  if (yearlyData.length > 0) {
-    content = <InvestmentTable investmentData={yearlyData}/>;
   }
 
   return (
     <div>
       <InvestmentHeader />
       <InvestmentForm onCalculate={calculateHandler} />
-      {content}
+      {!userInput && (
+        <p style={{ textAlign: "center", fontWeight: "bold" }}>
+          No investment to be calculated
+        </p>
+      )}
+      {userInput && (
+        <InvestmentTable
+          investmentData={yearlyData}
+          initialInvestment={userInput['currentSavings']}
+        />
+      )}
     </div>
   );
 };

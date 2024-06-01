@@ -2,12 +2,16 @@ import React from "react";
 
 import styles from "./InvestmentTable.module.css";
 
-const InvestmentTable = ({
-  year,
-  yearlyInterest,
-  savingsEndOfYear,
-  yearlyContribution,
-}) => {
+const InvestmentTable = (props) => {
+  //formatting the recieved values and rounding them up
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "NGN",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  // formatter.format(props.)
   return (
     <table className={styles.investment__result}>
       <thead>
@@ -20,13 +24,26 @@ const InvestmentTable = ({
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>{year}</td>
-          <td>{savingsEndOfYear}</td>
-          <td>{yearlyInterest}</td>
-          <td>{year}</td>
-          <td>{yearlyContribution}</td>
-        </tr>
+        {props.investmentData.map((dataValues) => {
+          return (
+            <tr key={dataValues.year}>
+              <td>{dataValues.year}</td>
+              <td>{formatter.format(dataValues.savingsEndOfYear)}</td>
+              <td>{formatter.format(dataValues.yearlyInterest)}</td>
+              <td>
+                {formatter.format(
+                  dataValues.savingsEndOfYear -
+                    props.initialInvestment -
+                    dataValues.yearlyContribution * dataValues.year
+                )}
+              </td>
+              <td>
+                {formatter.format(props.initialInvestment +
+                  dataValues.yearlyContribution * dataValues.year)}
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
